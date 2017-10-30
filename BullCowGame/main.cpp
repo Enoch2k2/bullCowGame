@@ -1,26 +1,24 @@
 #pragma once
-
 #include <iostream>
 #include <string>
+#include "FBullCowGame.h"
 
-using namespace std;
+
 // pre-define functions
 void PrintIntro();
-string GetGuessAndPrintBack();
+void PlayGame();
+void EndGame();
+std::string GetGuess();
+bool AskToPlayAgain();
 
-// program starting point
 int main()
 {
 	PrintIntro();
-
-	constexpr int NUMBER_OF_TURNS = 5;
-	for (int i = 1; i <= NUMBER_OF_TURNS; i++)
+	do
 	{
-		GetGuessAndPrintBack();
-	}
-	
-	// repeat the guess back to the player
-	
+		PlayGame();
+	} while (AskToPlayAgain());
+	EndGame();
 	return 0;
 }
 
@@ -28,23 +26,45 @@ int main()
 void PrintIntro()
 {
 	constexpr int WORD_LENGTH = 9;
-	cout << "Welcome to Cows and Bulls\n";
-	cout << "Can you guess the " << WORD_LENGTH;
-	cout << " letter in the isogram that I am thinking of?\n";
-	cout << endl;
+	std::cout << "Welcome to Cows and Bulls\n";
+	std::cout << "Can you guess the " << WORD_LENGTH;
+	std::cout << " letter in the isogram that I am thinking of?\n";
+	std::cout << std::endl;
 	return;
 }
 
-// get the player's guess
-string GetGuessAndPrintBack()
+void PlayGame()
 {
-	// get the guess from the player
-	cout << "Enter your guess: ";
-	string Guess = "";
-	getline(cin, Guess);
+	FBullCowGame BCGame;
 
-	cout << "Your guess was " << Guess << endl;
+	constexpr int NUMBER_OF_TURNS = 5;
+	for (int i = 1; i <= NUMBER_OF_TURNS; i++)
+	{
+		std::string Guess = GetGuess();
 
-	cout << endl;
+		std::cout << "Your guess was " << Guess << std::endl;
+		std::cout << std::endl;
+	}
+}
+
+void EndGame()
+{
+	std::cout << "Goodbye!\n\n";
+}
+
+std::string GetGuess()
+{
+	std::cout << "Enter your guess: ";
+	std::string Guess = "";
+	std::getline(std::cin, Guess);
 	return Guess;
+}
+
+bool AskToPlayAgain()
+{
+	std::cout << "Do you want to play again? (y/n): ";
+	std::string input;
+	std::getline(std::cin, input);
+	std::cout << std::endl;
+	return (input[0] == 'y' || input[0] == 'Y');
 }
